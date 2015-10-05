@@ -7,6 +7,7 @@ COUNTRIES = []
 a = "Countries"
 b = "Capitals"
 def ORDER():
+    LIMPIAR()
     ordered = OrderedDict(sorted(CAP_AND_COUN.items(), key=lambda x: x[1:]))
     print a.center(20,"="), b.center(20,"=")
     for k , v in ordered.items():
@@ -57,6 +58,7 @@ def INSERT_COUNTRIES():
         coun = True
         while coun == True:
             country = raw_input("Insert a Country\n")
+            country = country.title()
             if str(country).isalpha() == True or " " in country:
                 COUNTRIES.append(country)
                 coun = False
@@ -68,7 +70,7 @@ def INSERT_COUNTRIES():
         cap = True
         while cap == True:
             capital = raw_input("Insert a Capital\n")
-            capital = capital.lower()
+            capital = capital.title()
             if str(country).isalpha() == True or " " in capital:
                 CAPITALS.append(capital)
                 cap = False
@@ -92,13 +94,15 @@ def OUT():
 def MENU():
     """This is the menu that the user watch"""
     LIMPIAR()
-    print "1. Insert a country"
-    print "2. Countries list"
-    print "3. Capital list"
-    print "4. Countries and Capitals"
-    print "5. Countries and capitals by order"
-    print "6. All by mail"
-    print "7. Exit"
+    print "Welcome to Captials and Countries".center(40,"=")
+    print ""
+    print "1. Insert a country".ljust(40)
+    print "2. Countries list".ljust(40)
+    print "3. Capital list".ljust(40)
+    print "4. Countries and Capitals".ljust(40)
+    print "5. Countries and capitals by order".ljust(40)
+    print "6. All by mail".ljust(40)
+    print "7. Exit".ljust(40)
     men = raw_input("Choose an option\n")
     men = men.lower()
     if men == "1" or men == "country":
