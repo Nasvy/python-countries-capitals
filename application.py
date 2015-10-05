@@ -4,15 +4,22 @@ import sys
 CAP_AND_COUN = {}
 CAPITALS = []
 COUNTRIES = []
+a = "Countries"
+b = "Capitals"
 def CAPITALS_AND_COUNTRIES():
     """Here shows the capitals and countries"""
-    print CAP_AND_COUN
+    
+    print a.center(20,"="), b.center(20,"=")
+    for i in CAP_AND_COUN:
+        print i.center(20), CAP_AND_COUN[i].center(20)
     raw_input("Press enter")
     LIMPIAR()
     MENU()
 def LIST_CAPITAL():
     """Here shows the list of the capitals"""
-    print CAPITALS
+    print b.center(20,"=")
+    for i in CAPITALS:
+        print i.center(20)
     raw_input("Press enter")
     LIMPIAR()
     MENU()
@@ -42,7 +49,7 @@ def INSERT_COUNTRIES():
         coun = True
         while coun == True:
             country = raw_input("Insert a Country\n")
-            if str(country).isalpha() == True:
+            if str(country).isalpha() == True or " " in country:
                 COUNTRIES.append(country)
                 coun = False
             else:
@@ -53,7 +60,7 @@ def INSERT_COUNTRIES():
         cap = True
         while cap == True:
             capital = raw_input("Insert a Capital\n")
-            if str(country).isalpha() == True:
+            if str(country).isalpha() == True or " " in capital:
                 CAPITALS.append(capital)
                 cap = False
             else:
@@ -71,6 +78,8 @@ def LIMPIAR():
     """This function cleans the screen"""
     os.system("cls")
     os.system("clear")
+def OUT():
+    sys.exit()
 def MENU():
     """This is the menu that the user watch"""
     LIMPIAR()
@@ -91,6 +100,8 @@ def MENU():
         LIST_CAPITAL()
     elif men == "4":
         CAPITALS_AND_COUNTRIES()
+    elif men == "7":
+        OUT()
     else:
         print "Choose a correct option please"
         raw_input("Press enter")
