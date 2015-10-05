@@ -25,7 +25,9 @@ def LIST_CAPITAL():
     MENU()
 def LIST_COUNTRIES():
     """Here Shows the list of the Countries"""
-    print COUNTRIES
+    print a.center(20,"=")
+    for i in COUNTRIES:
+        print i.center(20)
     raw_input("Press enter")
     LIMPIAR()
     MENU()
@@ -95,10 +97,13 @@ def MENU():
         LIMPIAR()
         INSERT_COUNTRIES()
     elif men == "2":
+        LIMPIAR()
         LIST_COUNTRIES()
     elif men == "3":
+        LIMPIAR()
         LIST_CAPITAL()
     elif men == "4":
+        LIMPIAR()
         CAPITALS_AND_COUNTRIES()
     elif men == "7":
         OUT()
