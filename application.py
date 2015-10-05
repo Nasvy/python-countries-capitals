@@ -1,14 +1,20 @@
 import os
 import sys
-
+from collections import OrderedDict
 CAP_AND_COUN = {}
 CAPITALS = []
 COUNTRIES = []
 a = "Countries"
 b = "Capitals"
+def ORDER():
+    ordered = OrderedDict(sorted(CAP_AND_COUN.items(), key=lambda x: x[1:]))
+    print a.center(20,"="), b.center(20,"=")
+    for k , v in ordered.items():
+        print k.center(20), v.center(20)
+    raw_input("press enter")
+    MENU()
 def CAPITALS_AND_COUNTRIES():
     """Here shows the capitals and countries"""
-    
     print a.center(20,"="), b.center(20,"=")
     for i in CAP_AND_COUN:
         print i.center(20), CAP_AND_COUN[i].center(20)
@@ -62,6 +68,7 @@ def INSERT_COUNTRIES():
         cap = True
         while cap == True:
             capital = raw_input("Insert a Capital\n")
+            capital = capital.lower()
             if str(country).isalpha() == True or " " in capital:
                 CAPITALS.append(capital)
                 cap = False
@@ -106,6 +113,8 @@ def MENU():
     elif men == "4" or men == "all":
         LIMPIAR()
         CAPITALS_AND_COUNTRIES()
+    elif men == "5" or men =="allordered":
+        ORDER()
     elif men == "7":
         OUT()
     else:
