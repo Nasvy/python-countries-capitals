@@ -93,16 +93,17 @@ def MENU():
     print "6. All by mail"
     print "7. Exit"
     men = raw_input("Choose an option\n")
-    if men == "1":
+    men = men.lower()
+    if men == "1" or men == "country":
         LIMPIAR()
         INSERT_COUNTRIES()
-    elif men == "2":
+    elif men == "2" or men == "countries":
         LIMPIAR()
         LIST_COUNTRIES()
-    elif men == "3":
+    elif men == "3" or men == "capitals":
         LIMPIAR()
         LIST_CAPITAL()
-    elif men == "4":
+    elif men == "4" or men == "all":
         LIMPIAR()
         CAPITALS_AND_COUNTRIES()
     elif men == "7":
