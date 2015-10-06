@@ -3,9 +3,8 @@
 import os
 import sys
 from collections import OrderedDict
-#from email.MIMEMultipart import MIMEMultipart
-#from email.MIMEText import MIMEText
-
+import smtplib
+import smtplib, socket, getpass
 CAP_AND_COUN = {}
 CAPITALS = []
 COUNTRIES = []
@@ -13,32 +12,41 @@ ORDERED_LIST = {}
 a = "Countries"
 b = "Capitals"
 import smtplib, getpass
-
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+ 
 def main():
     print "Send email by gmail"
+    user = raw_input("Count from gmail")
+    password = getpass.getpass("Password:")
 
-    fromaddr = raw_input("Count from gmail: ")
-    password = getpass.getpass("Password: ")
-    toaddrs = raw_input("to: ")
-    #asunto = raw_input("subject, from message: ")
-    body = raw_input("Message html:")
+    remitente = raw_input("from, ejemplo: I")
+    destinatario = raw_input("to, ejemplo : You")
+    asunto = raw_input("subject, from message: ")
+    mesaje = raw_input("Message html:")
+    send_by_mail= SMTP()
 
-    msg = MIMEMultipart()
-    msg['From'] = fromaddr #This saves the mail of the sender
-    msg['To'] = toaddrs  #This saves the mail of the receiver
-    msg['Subject'] = "Countres and Capitals"  #This saves the subject
-    msg.attach(MIMEText(body, 'plain')) #This saves the message
+    send_by_mail.connect("smpt.gmail.com", 587)
 
-    try:
-        server = smtplib.SMTP('smtp.gmail.com:587')
-        server.starttls()
-        server.login(username,password)
-        text = msg.as_string()
-        server.sendmail(fromaddr, toaddrs, text)
-        server.quit()
-        print "yes"
-    except:
-        print "ups"
+    send_by_mail.ehlo()
+    send_by_mail.starttls()
+    send_by_mail.ehlo()
+
+    send_by_mail.login(user,password)
+
+    #gmail.set_debuglevel(1)
+
+    header = MIMEMultipart()
+    header["Subject"]= asunto
+    header["From"]= remitente
+    header["to"]= destinatario
+
+    mensaje = MIMEText(mensaje,plain)
+    header.attach(mensaje)
+
+    gmail.sendmail(remitente,destinatario,header.as_string())
+
+    gmail.quit()
 
 def ORDER():
     """This function order the capitals"""
@@ -95,30 +103,26 @@ def INSERT_COUNTRIES():
         while coun == True:
             country = raw_input("Insert a Country\n")
             country = country.title()
-            for c in country:
-                if c.isdigit() == False:
-                    coun = False
-                else:
-                    print "write only words n.n"
-                    raw_input("Press enter")
-                    coun = True
-                    LIMPIAR()
-                    break
-        COUNTRIES.append(country)
+            if str(country).isalpha() == True or " " in country:
+                COUNTRIES.append(country)
+                coun = False
+            else:
+                print "write only words n.n"
+                raw_input("Press enter")
+                LIMPIAR()
+                coun = True
         cap = True
         while cap == True:
             capital = raw_input("Insert a Capital\n")
             capital = capital.title()
-            for c in capital:
-                if c.isdigit() == False:
-                    cap = False
-                else:
-                    print "write only words n.n"
-                    raw_input("Press enter")
-                    cap = True
-                    LIMPIAR()
-                    break
-        CAPITALS.append(capital)
+            if str(country).isalpha() == True or " " in capital:
+                CAPITALS.append(capital)
+                cap = False
+            else:
+                print "write only words n.n"
+                raw_input("Press enter")
+                LIMPIAR()
+                cap = True
     except ValueError:
         print "Insert a valid option"
     CAP_AND_COUN[country] = capital
