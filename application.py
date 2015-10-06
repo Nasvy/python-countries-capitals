@@ -1,11 +1,47 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import os
 import sys
 from collections import OrderedDict
+import smtplib
+import smtplib, socket, getpass
 CAP_AND_COUN = {}
 CAPITALS = []
 COUNTRIES = []
+ORDERED_LIST = {}
 a = "Countries"
 b = "Capitals"
+import smtplib, getpass
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+ 
+ddef main():
+    print "Send email by gmail"
+    username = raw_input("Count from gmail")
+    password = getpass.getpass("Password:")
+
+    fromaddr = raw_input("from, ejemplo: I")
+    toaddrs = raw_input("to, ejemplo : You")
+    #asunto = raw_input("subject, from message: ")
+    body = raw_input("Message html:")
+
+    msg = MIMEMultipart()
+    msg['From'] = fromaddr #This saves the mail of the sender
+    msg['To'] = toaddrs  #This saves the mail of the receiver
+    msg['Subject'] = "Countres and Capitals"  #This saves the subject
+    msg.attach(MIMEText(body, 'plain')) #This saves the message
+
+    try:
+        server = smtplib.SMTP('smtp.gmail.com:587')
+        server.starttls()
+        server.login(username,password)
+        text = msg.as_string()
+        server.sendmail(fromaddr, toaddrs, text)
+        server.quit()
+        print "yes"
+    except:
+        print "ups"
+
 def ORDER():
     """This function order the capitals"""
     LIMPIAR()
@@ -13,6 +49,7 @@ def ORDER():
     print a.center(20,"="), b.center(20,"=")
     for k , v in ordered.items():
         print k.center(20), v.center(20)
+        ORDERED_LIST[k]=v
     raw_input("press enter")
     MENU()
 def CAPITALS_AND_COUNTRIES():
@@ -120,6 +157,8 @@ def MENU():
         CAPITALS_AND_COUNTRIES()
     elif men == "5" or men =="allordered":
         ORDER()
+    elif men == "6" or men == "allmail":
+        main()
     elif men == "7":
         OUT()
     else:
