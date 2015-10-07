@@ -1,27 +1,36 @@
+"""This program store the countries and the capitals"""
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
 import sys
 from collections import OrderedDict
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 CAP_AND_COUN = {}
 CAPITALS = []
 COUNTRIES = []
 ORDERED_LIST = {}
-a = "Countries"
-b = "Capitals"
+A = "Countries"
+B = "Capitals"
 import smtplib, getpass
-def main():
-    print "Send email by gmail"
+def email():
+    """this function send the to the email"""
+    limpiar()
+    print "This are your Countries and capital that you will send:"
+    print ""
+    print A.center(20, "="), B.center(20, "=")
+    for i in CAP_AND_COUN:
+        print i.center(20), CAP_AND_COUN[i].center(20)
+    print ""
+    print "Send email by gmail\n"
     try:
         fromaddr = raw_input("Count from gmail: ")
         password = getpass.getpass("Password: ")
         toaddrs = raw_input("to: ")
-        #asunto = raw_input("subject, from message: ")
+        print "Sending message..."
         body = "Countries\t==========\tCapitals\n"
         for msg in CAP_AND_COUN:
-            body = body + str(msg).center(15)+ str(CAP_AND_COUN[msg]).rjust(30) + "\n" 
+            body = body + str(msg).center(15)+":"+ str(CAP_AND_COUN[msg]).rjust(30) + "\n"
         msg = MIMEMultipart()
         msg['From'] = fromaddr #This saves the mail of the sender
         msg['To'] = toaddrs  #This saves the mail of the receiver
@@ -32,112 +41,112 @@ def main():
     try:
         server = smtplib.SMTP('smtp.gmail.com:587')
         server.starttls()
-        server.login(fromaddr,password)
+        server.login(fromaddr, password)
         text = msg.as_string()
         server.sendmail(fromaddr, toaddrs, text)
         server.quit()
         raw_input("Message sended")
-        MENU()
-    except:
-        raw_input("ups, we find an error")
-        MENU()
+        menu()
+    except TypeError:
+        raw_input("ups, we find an error, try again")
+        email()
 
-def ORDER():
+def order():
     """This function order the capitals"""
-    LIMPIAR()
+    limpiar()
     ordered = OrderedDict(sorted(CAP_AND_COUN.items(), key=lambda x: x[1:]))
-    print a.center(20,"="), b.center(20,"=")
-    for k , v in ordered.items():
-        print k.center(20), v.center(20)
-        ORDERED_LIST[k]=v
+    print A.center(20, "="), B.center(20, "=")
+    for key, value in ordered.items():
+        print key.center(20), value.center(20)
+        ORDERED_LIST[key] = value
     raw_input("press enter")
-    MENU()
-def CAPITALS_AND_COUNTRIES():
+    menu()
+def capitalandcountries():
     """Here shows the capitals and countries"""
-    print a.center(20,"="), b.center(20,"=")
+    print A.center(20, "="), B.center(20, "=")
     for i in CAP_AND_COUN:
         print i.center(20), CAP_AND_COUN[i].center(20)
     raw_input("Press enter")
-    LIMPIAR()
-    MENU()
-def LIST_CAPITAL():
+    limpiar()
+    menu()
+def listcapital():
     """Here shows the list of the capitals"""
-    print b.center(20,"=")
+    print B.center(20, "=")
     for i in CAPITALS:
         print i.center(20)
     raw_input("Press enter")
-    LIMPIAR()
-    MENU()
-def LIST_COUNTRIES():
+    limpiar()
+    menu()
+def listcountries():
     """Here Shows the list of the Countries"""
-    print a.center(20,"=")
+    print A.center(20, "=")
     for i in COUNTRIES:
         print i.center(20)
     raw_input("Press enter")
-    LIMPIAR()
-    MENU()
-def QUEST():
+    limpiar()
+    menu()
+def quest():
     """This function ask the user if he wants to insert another Country and Capital"""
     ans = raw_input("Do you want to insert another Country? y/n\n")
     ans = ans.lower()
     if ans == "y" or ans == "yes":
-        INSERT_COUNTRIES()
+        insertcountries()
     elif ans == "n" or ans == "no":
-        LIMPIAR()
-        MENU()
+        limpiar()
+        menu()
     else:
         print "Choose a correct option"
         raw_input("Press enter")
-        LIMPIAR()
-        QUEST()
-def INSERT_COUNTRIES():
+        limpiar()
+        quest()
+def insertcountries():
     """Here the user insert the Country and the Capital"""
     try:
         coun = True
         while coun == True:
             country = raw_input("Insert a Country\n")
-            country = country.title()
-            for c in country:
-                if c.isdigit() == False:
+            country = country.capitalize()
+            for character in country:
+                if character.isdigit() == False:
                     coun = False
                 else:
                     print "write only words n.n"
                     raw_input("Press enter")
                     coun = True
-                    LIMPIAR()
+                    limpiar()
                     break
         COUNTRIES.append(country)
         cap = True
         while cap == True:
             capital = raw_input("Insert a Capital\n")
-            capital = capital.title()
-            for c in capital:
-                if c.isdigit() == False:
+            capital = capital.capitalize()
+            for character in capital:
+                if character.isdigit() == False:
                     cap = False
                 else:
                     print "write only words n.n"
                     raw_input("Press enter")
                     cap = True
-                    LIMPIAR()
+                    limpiar()
                     break
         CAPITALS.append(capital)
     except ValueError:
         print "Insert a valid option"
     CAP_AND_COUN[country] = capital
     print CAP_AND_COUN
-    LIMPIAR()
-    QUEST()
-def LIMPIAR():
+    limpiar()
+    quest()
+def limpiar():
     """This function cleans the screen"""
     os.system("cls")
     os.system("clear")
-def OUT():
+def out():
     """This function exit the program"""
     sys.exit()
-def MENU():
+def menu():
     """This is the menu that the user watch"""
-    LIMPIAR()
-    print "Welcome to Captials and Countries".center(40,"=")
+    limpiar()
+    print "Welcome to Captials and Countries".center(40, "=")
     print "-----1. Insert a country----------------"
     print "-----2. Countries list------------------"
     print "-----3. Capital list--------------------"
@@ -148,26 +157,26 @@ def MENU():
     men = raw_input("Choose an option:\n")
     men = men.lower()
     if men == "1" or men == "country":
-        LIMPIAR()
-        INSERT_COUNTRIES()
+        limpiar()
+        insertcountries()
     elif men == "2" or men == "countries":
-        LIMPIAR()
-        LIST_COUNTRIES()
+        limpiar()
+        listcountries()
     elif men == "3" or men == "capitals":
-        LIMPIAR()
-        LIST_CAPITAL()
+        limpiar()
+        listcapital()
     elif men == "4" or men == "all":
-        LIMPIAR()
-        CAPITALS_AND_COUNTRIES()
-    elif men == "5" or men =="allordered":
-        ORDER()
+        limpiar()
+        capitalandcountries()
+    elif men == "5" or men == "allordered":
+        order()
     elif men == "6" or men == "allmail":
-        main()
+        email()
     elif men == "7":
-        OUT()
+        out()
     else:
         print "Choose a correct option please"
         raw_input("Press enter")
-        MENU()
-MENU()
+        menu()
+menu()
 
