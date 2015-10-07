@@ -47,7 +47,7 @@ def email():
         server.quit()
         raw_input("Message sended")
         menu()
-    except TypeError:
+    except Exception as inst:
         raw_input("ups, we find an error, try again")
         email()
 
